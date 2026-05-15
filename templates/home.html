@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusLift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+        }
+        
+        .navbar {
+            background: #1a73e8;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar h1 {
+            color: white;
+            font-size: 22px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .hero h2 {
+            font-size: 36px;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 32px;
+        }
+        
+        .btn {
+            background: #1a73e8;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 8px;
+            display: inline-block;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #1a73e8;
+            border: 2px solid #1a73e8;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card h3 {
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        
+        .card p {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>🚗 CampusLift</h1>
+        <div>
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+        </div>
+    </div>
+    <div class="hero">
+        <h2>Safe. Affordable. Smart Student Transport.</h2>
+        <p>Connect with students going your way. Share rides. Travel safely.</p>
+        <a href="/register" class="btn">Get Started</a>
+        <a href="/login" class="btn btn-outline">Login</a>
+    </div>
+    <div class="features">
+        <div class="card">
+            <div class="icon">🔒</div>
+            <h3>Verified Students</h3>
+            <p>Only college email users can join.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🚗</div>
+            <h3>Share Rides</h3>
+            <p>Offer or find rides going your way.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🆘</div>
+            <h3>SOS Safety</h3>
+            <p>Emergency alert with live location.</p>
+        </div>
+        <div class="card">
+            <div class="icon">💰</div>
+            <h3>Save Money</h3>
+            <p>Split fuel costs with fellow students.</p>
+        </div>
+    </div>
+</body>
+
+</html>

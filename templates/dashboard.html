@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - CampusLift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+        }
+        
+        .navbar {
+            background: #1a73e8;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar h1 {
+            color: white;
+            font-size: 20px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 16px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .welcome {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .welcome h2 {
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .welcome p {
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .action-card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            color: #1a1a2e;
+        }
+        
+        .action-card:hover {
+            background: #f0f4f8;
+        }
+        
+        .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        
+        .action-card h3 {
+            margin-bottom: 8px;
+        }
+        
+        .action-card p {
+            color: #777;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>🚗 CampusLift</h1>
+        <div>
+            <a href="/find-ride">Find Ride</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="welcome">
+            <h2>Welcome, {{ name }}! 👋</h2>
+            <p>What do you want to do today?</p>
+        </div>
+        <div class="actions">
+            <a href="/offer-ride" class="action-card">
+                <div class="icon">🚗</div>
+                <h3>Offer a Ride</h3>
+                <p>Share your ride with students going your way</p>
+            </a>
+            <a href="/find-ride" class="action-card">
+                <div class="icon">🔍</div>
+                <h3>Find a Ride</h3>
+                <p>Search for available rides to your destination</p>
+            </a>
+            <a href="/sos" class="action-card" style="border: 2px solid #ff4444; grid-column: 1 / -1;">
+                <div class="icon">🆘</div>
+                <h3 style="color: #ff4444;">Emergency SOS</h3>
+                <p>Press if you feel unsafe during a ride</p>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

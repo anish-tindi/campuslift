@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Find a Ride - CampusLift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+        }
+        
+        .navbar {
+            background: #1a73e8;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar h1 {
+            color: white;
+            font-size: 20px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 16px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            gap: 12px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .search-box button {
+            padding: 12px 24px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .ride-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .ride-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .destination {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        .charge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .ride-details {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .detail {
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .detail span {
+            font-weight: 500;
+            color: #1a1a2e;
+        }
+        
+        .contact-btn {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-block;
+        }
+        
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+        }
+        
+        .offer-link {
+            color: #1a73e8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>🚗 CampusLift</h1>
+        <div>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <form method="GET">
+            <div class="search-box">
+                <input type="text" name="search" placeholder="Search destination e.g. Rewari" value="{{ search }}">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
+        {% if rides %} {% for ride in rides %}
+        <div class="ride-card">
+            <div class="ride-header">
+                <div class="destination">📍 {{ ride.destination }}</div>
+                <div class="charge">{{ ride.charge }}</div>
+            </div>
+            <div class="ride-details">
+                <div class="detail">🕐 Time: <span>{{ ride.departure_time }}</span></div>
+                <div class="detail">💺 Seats: <span>{{ ride.seats }}</span></div>
+                <div class="detail">👤 By: <span>{{ ride.user.name }}</span></div>
+            </div>
+            <a href="tel:{{ ride.user.phone }}" class="contact-btn">📞 Contact {{ ride.user.name }}</a>
+        </div>
+        {% endfor %} {% else %}
+        <div class="empty">
+            <p style="font-size: 48px; margin-bottom: 16px;">🚗</p>
+            <p style="font-size: 18px; margin-bottom: 8px;">No rides found</p>
+            <p>Be the first to <a href="/offer-ride" class="offer-link">offer a ride</a></p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

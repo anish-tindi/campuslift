@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Offer a Ride - CampusLift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+        }
+        
+        .navbar {
+            background: #1a73e8;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar h1 {
+            color: white;
+            font-size: 20px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 16px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .form-box {
+            background: white;
+            padding: 36px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        label {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
+            display: block;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #1558b0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>🚗 CampusLift</h1>
+        <div>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="form-box">
+            <h2>🚗 Offer a Ride</h2>
+            <form method="POST">
+                <label>Where are you going?</label>
+                <input type="text" name="destination" placeholder="e.g. Rewari, Lucknow" required>
+
+                <label>Departure Time</label>
+                <input type="datetime-local" name="departure_time" required>
+
+                <label>Available Seats</label>
+                <select name="seats" required>
+                    <option value="">Select seats</option>
+                    <option value="1">1 seat</option>
+                    <option value="2">2 seats</option>
+                    <option value="3">3 seats</option>
+                    <option value="4">4 seats</option>
+                </select>
+
+                <label>Fuel Charge per Person</label>
+                <input type="text" name="charge" placeholder="e.g. Free, ₹50, ₹100" required>
+
+                <button type="submit">Post Ride</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

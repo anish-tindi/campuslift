@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SOS - CampusLift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .sos-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .sos-title {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #ff4444;
+        }
+        
+        .sos-subtitle {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 48px;
+        }
+        
+        .sos-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #ff4444;
+            border: 8px solid #ff6666;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 40px rgba(255, 68, 68, 0.5);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 48px;
+        }
+        
+        .sos-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(255, 68, 68, 0.8);
+        }
+        
+        .sos-button:active {
+            transform: scale(0.95);
+        }
+        
+        .sos-button p {
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        
+        .status-box {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 20px 32px;
+            margin-bottom: 24px;
+            min-width: 300px;
+        }
+        
+        .status-box h3 {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .status-text {
+            font-size: 16px;
+            color: #4ade80;
+        }
+        
+        .location-text {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 4px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .alert-box {
+            background: #ff4444;
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: none;
+        }
+        
+        .alert-box p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sos-container">
+        <div class="sos-title">🆘 Emergency SOS</div>
+        <div class="sos-subtitle">Press and hold the button if you feel unsafe</div>
+
+        <div class="alert-box" id="alertBox">
+            <p>🚨 SOS Alert Sent! Your location has been shared.</p>
+        </div>
+
+        <button class="sos-button" id="sosBtn" onclick="triggerSOS()">
+            SOS
+            <p>Hold</p>
+        </button>
+
+        <div class="status-box">
+            <h3>YOUR LOCATION</h3>
+            <div class="status-text" id="statusText">Fetching location...</div>
+            <div class="location-text" id="locationText"></div>
+        </div>
+
+        <div class="status-box">
+            <h3>LOGGED IN AS</h3>
+            <div class="status-text">{{ user.name }}</div>
+            <div class="location-text">{{ user.phone }}</div>
+        </div>
+
+        <div class="nav-links">
+            <a href="/dashboard">← Dashboard</a>
+            <a href="/find-ride">Find Ride</a>
+        </div>
+    </div>
+
+    <script>
+        let userLocation = null;
+
+        // Get location on page load
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                function(position) {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    document.getElementById('statusText').textContent = '✅ Location Active';
+                    document.getElementById('locationText').textContent =
+                        `${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
+                },
+                function(error) {
+                    document.getElementById('statusText').textContent = '⚠️ Location unavailable';
+                    document.getElementById('statusText').style.color = '#facc15';
+                }
+            );
+        }
+
+        function triggerSOS() {
+            const btn = document.getElementById('sosBtn');
+            const alertBox = document.getElementById('alertBox');
+
+            // Flash the button
+            btn.style.background = '#cc0000';
+            btn.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                btn.style.background = '#ff4444';
+                btn.style.transform = 'scale(1)';
+            }, 200);
+
+            // Show alert
+            alertBox.style.display = 'block';
+
+            // Build WhatsApp SOS message
+            let message = `🚨 SOS ALERT from ${document.querySelector('.status-text').textContent}\n`;
+            message += `Student needs help!\n`;
+
+            if (userLocation) {
+                message += `📍 Location: https://maps.google.com/?q=${userLocation.lat},${userLocation.lng}`;
+            } else {
+                message += `📍 Location: Not available`;
+            }
+
+            // Open WhatsApp with SOS message
+            const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+            setTimeout(() => {
+                window.open(whatsappURL, '_blank');
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>
