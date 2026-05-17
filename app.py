@@ -1,10 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from database import db, User, Ride
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_dance.contrib.google import make_google_blueprint, google
+import os
+
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
 app.secret_key = 'campuslift-secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///campuslift.db'
+
+# Google OAuth setup
+google_bp = make_google_blueprint(
+    client_id='41706192550-e8c5nibveun805f61u7v08nrttklmkf3.apps.googleusercontent.com',
+    client_secret='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',
+    redirect_to='google_login',
+    scope=['profile', 'email']
+)
+app.register_blueprint(google_bp, url_prefix='/login')
 
 db.init_app(app)
 
@@ -55,6 +68,35 @@ def login():
 
     return render_template('login.html', error=None)
 
+@app.route('/google-login')
+def google_login():
+    if not google.authorized:
+        return redirect(url_for('google.login'))
+    
+    resp = google.get('/oauth2/v2/userinfo')
+    if not resp.ok:
+        return redirect(url_for('login'))
+    
+    google_info = resp.json()
+    email = google_info['email']
+    name = google_info['name']
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        user = User(
+            name=name,
+            email=email,
+            phone='Not provided',
+            student_id='Google',
+            password=generate_password_hash('google-auth')
+        )
+        db.session.add(user)
+        db.session.commit()
+
+    session['user_id'] = user.id
+    session['user_name'] = user.name
+    return redirect(url_for('dashboard'))
+
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
@@ -104,11 +146,13 @@ def find_ride():
         rides = Ride.query.order_by(Ride.created_at.desc()).all()
 
     return render_template('find_ride.html', rides=rides, search=search)
+
 @app.route('/sos')
 def sos():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     user = User.query.get(session['user_id'])
     return render_template('sos.html', user=user)
+
 if __name__ == '__main__':
     app.run(debug=True)
