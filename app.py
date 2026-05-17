@@ -1,19 +1,21 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 from flask import Flask, render_template, request, redirect, url_for, session
 from database import db, User, Ride
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.google import make_google_blueprint, google
-import os
-
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
-app.secret_key = 'campuslift-secret-key'
+app.secret_key = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///campuslift.db'
 
-# Google OAuth setup
 google_bp = make_google_blueprint(
-    client_id='41706192550-e8c5nibveun805f61u7v08nrttklmkf3.apps.googleusercontent.com',
-    client_secret='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',
+    client_id=os.getenv('GOOGLE_CLIENT_ID'),
+    client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
     redirect_to='google_login',
     scope=['profile', 'email']
 )
