@@ -2,3 +2,5 @@ flask
 flask-sqlalchemy
 werkzeug
 gunicorn
+flask-dance
+python-dotenv
