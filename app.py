@@ -11,6 +11,8 @@ from flask_dance.contrib.google import make_google_blueprint, google
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///campuslift.db'
 
 google_bp = make_google_blueprint(
