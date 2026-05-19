@@ -18,5 +18,6 @@ class Ride(db.Model):
     departure_time = db.Column(db.String(50), nullable=False)
     seats = db.Column(db.Integer, nullable=False)
     charge = db.Column(db.String(50), nullable=False)
+    women_only = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     user = db.relationship('User', backref='rides')

@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.google import make_google_blueprint, google
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY')
+app.secret_key = os.getenv('SECRET_KEY', 'campuslift-secret-key')
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///campuslift.db'
@@ -126,12 +126,13 @@ def offer_ride():
         charge = request.form['charge']
 
         ride = Ride(
-            user_id=session['user_id'],
-            destination=destination,
-            departure_time=departure_time,
-            seats=int(seats),
-            charge=charge
-        )
+    user_id=session['user_id'],
+    destination=destination,
+    departure_time=departure_time,
+    seats=int(seats),
+    charge=charge,
+    women_only=True if request.form.get('women_only') else False
+)
         db.session.add(ride)
         db.session.commit()
         return redirect(url_for('find_ride'))
@@ -144,14 +145,20 @@ def find_ride():
         return redirect(url_for('login'))
 
     search = request.args.get('search', '')
+    women_only = request.args.get('women_only', '')
+    
+    query = Ride.query
+    
     if search:
-        rides = Ride.query.filter(
-            Ride.destination.ilike(f'%{search}%')
-        ).all()
-    else:
-        rides = Ride.query.order_by(Ride.created_at.desc()).all()
-
-    return render_template('find_ride.html', rides=rides, search=search)
+        query = query.filter(Ride.destination.ilike(f'%{search}%'))
+    
+    if women_only:
+        query = query.filter(Ride.women_only == True)
+    
+    rides = query.order_by(Ride.created_at.desc()).all()
+    
+    return render_template('find_ride.html', rides=rides, search=search, women_only=women_only)
+          
 
 @app.route('/sos')
 def sos():
